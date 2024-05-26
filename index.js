@@ -13,19 +13,20 @@ io.on('connection', (socket) => {
     socket.on('draw', (data) => {
         connections.forEach(con => {
             if (con.id !== socket.id) {
-                con.emit('ondraw', { x: data.x, y: data.y });
+                con.emit('ondraw', { x: data.x, y: data.y, brushsize: data.brushsize });
             }
         });
     });
 
-    socket.on("down",(data)=>{
-        connections.forEach((con)=> {
-            if(con.id !== socket.id){
-                con.emit("ondown",{x: data.x ,y: data.y});
+    socket.on("down", (data) => {
+        connections.forEach(con => {
+            if (con.id !== socket.id) {
+                con.emit("ondown", { x: data.x, y: data.y, brushsize: data.brushsize });
             }
-        })
-    })
+        });
+    });
 
+    
     socket.on('disconnect', () => {
         connections = connections.filter(con => con.id !== socket.id);
         console.log(`${socket.id} has disconnected`);
