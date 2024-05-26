@@ -3,24 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Canvas with Scrolling</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f3f3f3;
+        }
+        #canvas-container {
+            position: relative;
+            width: 100vw;
+            height: 90vw;
+            overflow: auto; /* Enable scrolling */
+        }
+        #canvas {
+            background-color: #ffffff;
+            border: 2px solid #ccc;
+        }
+        #controls {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        #controls label {
+            font-weight: bold;
+        }
+        #controls input[type="range"] {
+            width: 100px;
+            margin-left: 5px;
+            margin-right: 10px;
+        }
+        #controls button {
+            padding: 5px 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        #controls button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-    
-    
-    
-    <canvas id="canvas"></canvas>
-    
-    <div id="controls">
-        <label for="brush-size">Brush Size: </label>
-        <input type="range" id="brush-size" min="1" max="50" value="5">
+    <div id="canvas-container">
+        <canvas id="canvas" width="2000" height="2000"></canvas>
     </div>
-    
-    
+    <div id="controls">
+        <label for="brush-size">Brush Size:</label>
+        <input type="range" id="brush-size" min="1" max="50" value="5">
+        <button id="clear">Clear</button>
+    </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.js" integrity="sha512-luMnTJZ7oEchNDZAtQhgjomP1eZefnl82ruTH/3Oj/Yu5qYtwL7+dVRccACS/Snp1lFXq188XFipHKYE75IaQQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="./script.js"></script>
-
-
-
 </body>
 </html>

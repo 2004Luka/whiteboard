@@ -26,7 +26,12 @@ io.on('connection', (socket) => {
         });
     });
 
-    
+    socket.on("clear",()=>{
+        connections.forEach((con) => {
+            con.emit("clear");
+        })
+    })
+
     socket.on('disconnect', () => {
         connections = connections.filter(con => con.id !== socket.id);
         console.log(`${socket.id} has disconnected`);
