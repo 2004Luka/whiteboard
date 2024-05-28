@@ -8,6 +8,7 @@ console.log('Socket.IO connection established successfully!');
 function App() {
   const [brushSize, setBrushSize] = useState(5);
   const canvasRef = useRef(null);
+  let brushSizeUsedForStroke = brushSize; // Define and initialize brushSizeUsedForStroke
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -30,8 +31,9 @@ function App() {
       y = pos.y;
       ctx.beginPath();
       ctx.moveTo(x, y);
-      socket.emit('down', { x, y });
+      socket.emit('down', { x, y, brushsize: brushSize });
       mouseDown = true;
+      brushSizeUsedForStroke = brushSize; // Store the brush size used for the original stroke
     };
 
     const handleMouseUp = () => {
@@ -43,8 +45,8 @@ function App() {
         let pos = getMousePos(canvas, e);
         x = pos.x;
         y = pos.y;
-        socket.emit('draw', { x, y });
-        ctx.lineWidth = brushSize;  // Use local brush size for drawing
+        socket.emit('draw', { x, y, brushsize: brushSize });
+        ctx.lineWidth = brushSize;
         ctx.lineTo(x, y);
         ctx.stroke();
       }
@@ -54,14 +56,14 @@ function App() {
     canvas.addEventListener('mouseup', handleMouseUp);
     canvas.addEventListener('mousemove', handleMouseMove);
 
-    socket.on('ondraw', ({ x, y }) => {
-      ctx.lineWidth = brushSize;  // Use local brush size for received drawings
+    socket.on('ondraw', ({ x, y, brushsize }) => {
+      ctx.lineWidth = brushsize; // Use the brush size from the received event
       ctx.lineTo(x, y);
       ctx.stroke();
     });
 
-    socket.on('ondown', ({ x, y }) => {
-      ctx.lineWidth = brushSize;  // Use local brush size for received drawings
+    socket.on('ondown', ({ x, y, brushsize }) => {
+      ctx.lineWidth = brushsize; // Use the brush size from the received event
       ctx.beginPath();
       ctx.moveTo(x, y);
     });
